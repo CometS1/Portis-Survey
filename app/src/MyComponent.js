@@ -5,7 +5,26 @@ import {
   ContractForm,
 } from "drizzle-react-components";
 
+import {
+  Button
+} from 'react-bootstrap';
+
 import logo from "./logo.png";
+
+import {PORTIS_ADDRESS} from "./constants.js";
+
+//Include Portis Usage
+import Portis from '@portis/web3';
+import Web3 from 'web3';
+
+const portis = new Portis(PORTIS_ADDRESS, 'mainnet', { gasRelay: true});
+const web3 = new Web3(portis.provider);
+
+web3.eth.getAccounts().then(accounts => {
+  document.getElementById("portis").innerHTML = `<p>Wallet Address: ${
+    accounts[0]
+    }</p>`;
+});
 
 export default ({ accounts }) => (
   <div className="App">
@@ -18,6 +37,12 @@ export default ({ accounts }) => (
     <div className="section">
       <h2>Active Account</h2>
       <AccountData accountIndex={0} units="ether" precision={3} />
+    </div>
+
+    <div className="section">
+      <h2>Portis Account</h2>
+      <div id="portis"></div>
+      <Button></Button>
     </div>
 
     <div className="section">
